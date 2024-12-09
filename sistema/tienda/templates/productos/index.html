@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block titulo %} Lista de Productos {% endblock %}
+
+{% block contenido %}
+<div class="card">
+    <div class="card-header text-muted">
+        <a class="btn btn-outline-success fw-bold btn-sm" href="{% url 'crear' %}" role="button">
+            Agregar
+        </a>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Productos</h4>
+        <div class="table-responsive-sm">
+            <table class="table table-hover">
+                <thead class="table table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.id }}</td>
+                        <td>{{ producto.nombre }}</td>
+                        <td>
+                            <img src="{{ producto.imagen.url }}" height="100" />
+                        </td>
+                        <td>{{ producto.descripcion }}</td>
+                        <td class="text-success fw-bold">{{ producto.precio }}</td>
+                        <td class="stok">{{ producto.stock }}</td>
+                        <td>
+                            <a class="btn btn-outline-warning fw-bold btn-sm"
+                             href="{% url 'editar' producto.id %}"
+                              role="button">Editar</a>
+
+                            <a href="{% url 'eliminar' producto.id %}" 
+                               class="btn btn-outline-danger fw-bold btn-sm"
+                               onclick="return confirmarBorrado();">
+                               Borrar
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted">Footer</div>
+</div>
+
+<script>
+function confirmarBorrado() {
+    return confirm("¿Estás seguro que quieres borrar este producto?");
+}
+</script>
+
+{% endblock %}
